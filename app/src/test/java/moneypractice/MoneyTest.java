@@ -6,6 +6,7 @@ package moneypractice;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import static moneypractice.Currency.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ public class MoneyTest {
 
     @Test
     void toString_ShouldTruncateCentsCorrectly_WhenValueHasExcessPrecision() {
-        Money money = new Money(Currency.USD, 1.9999f);
+        Money money = new Money(USD, 1.9999f);
         String expectedValue = "USD 1.99";
         String actualValue = money.toString();
         System.out.printf("Expected: %s, Actual: %s%n", expectedValue, actualValue);
@@ -80,5 +81,22 @@ public class MoneyTest {
         Money expected = new Money(currency, expectedValue);
         System.out.printf("Expected: %s, Actual: %s%n", expected, result);
         assertEquals(expected, result, "Test failed for: " + description);
+    }
+
+    @Test
+    void testAdd_different_currencies() {
+        Money money1 = new Money(USD, 10.12F);
+        Money money2 = new Money(PHP, 2.19F);
+        assertThrows(IllegalArgumentException.class, () -> {
+            money1.add(money2);
+        });
+    }
+    @Test
+    void testSubtract_different_currencies() {
+        Money money1 = new Money(USD, 180.62F);
+        Money money2 = new Money(EUR, 21.49F);
+        assertThrows(IllegalArgumentException.class, () -> {
+            money1.subtract(money2);
+        });
     }
 }
