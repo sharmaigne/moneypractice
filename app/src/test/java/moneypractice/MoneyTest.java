@@ -99,4 +99,10 @@ public class MoneyTest {
             money1.subtract(money2);
         });
     }
+    @Test
+    void testMoney_nullCurrency() {
+        assertThrows(NullPointerException.class, () -> {
+            new Money(null, 180.62F);
+        });
+    }
 }
